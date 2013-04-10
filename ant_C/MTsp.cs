@@ -333,6 +333,9 @@ namespace ant_C
             UpdateTrial_2();
         }
 
+        /// <summary>
+        /// 并行开始
+        /// </summary>
         public void MantStart()
         {
             ant_1 = new Thread(Search_1);
