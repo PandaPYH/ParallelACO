@@ -7,9 +7,9 @@ namespace ant_C
 {
     public class Common
     {
-        public static double ALPHA = 1.0; //启发因子，信息素的重要程度
+        public static double ALPHA   = 1.0; //启发因子，信息素的重要程度
 
-        public static double BETA = 3.0;   //期望因子，城市间距离的重要程度
+        public static double BETA = 2.0;   //期望因子，城市间距离的重要程度
         public static double ROU = 0.5; //信息素残留参数
 
         public static int N_ANT_COUNT = 34; //蚂蚁数量
@@ -20,8 +20,14 @@ namespace ant_C
         public static double DBQ = 100.0; //总的信息素
         public static double DB_MAX = 10e9; //一个标志数，10的9次方
         public static string filePath = "D:\\eil51.tsp";
+        public static double MaxTrial_1 = 0.0;
+        public static double MinTrial_1 = 0.0;
+        public static double MaxTrial_2 = 0.0;
+        public static double MinTrial_2 = 0.0;
 
         public static double[,] g_Trial = new double[N_CITY_COUNT, N_CITY_COUNT]; //两两城市间信息素，就是环境信息素
+        public static double[,] g_Trial_1 = new double[N_CITY_COUNT, N_CITY_COUNT];//种群1的环境信息素
+        public static double[,] g_Trial_2 = new double[N_CITY_COUNT, N_CITY_COUNT];//种群2的环境信息素
         public static double[,] g_Distance = new double[N_CITY_COUNT, N_CITY_COUNT]; //两两城市间距离
 
         //public Common()

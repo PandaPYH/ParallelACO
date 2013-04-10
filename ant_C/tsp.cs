@@ -7,19 +7,19 @@ namespace ant_C
     class CTsp
     {
 	
-        CAnt []m_cAntAry; //蚂蚁数组
-        public CAnt m_cBestAnt; //定义一个蚂蚁变量，用来保存搜索过程中的最优结果
+        CAnt1 []m_cAntAry; //蚂蚁数组
+        public CAnt1 m_cBestAnt; //定义一个蚂蚁变量，用来保存搜索过程中的最优结果
 	                                    //该蚂蚁不参与搜索，只是用来保存最优结果
 
         public CTsp()
         {
             Common.Init();
-            m_cAntAry=new CAnt[Common.N_ANT_COUNT];
+            m_cAntAry=new CAnt1[Common.N_ANT_COUNT];
             for (int i = 0; i < Common.N_ANT_COUNT; i++)
             {
-                m_cAntAry[i] = new CAnt();
+                m_cAntAry[i] = new CAnt1();
             }
-            m_cBestAnt=new CAnt();
+            m_cBestAnt=new CAnt1();
         }
 
         /// <summary>
