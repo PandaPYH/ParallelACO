@@ -33,8 +33,12 @@ namespace TspShow
 
         private void button1_Click(object sender, EventArgs e)
         {
+            chart1.Series["Series1"].Points.Clear();
+            chart1.Series["Series2"].Points.Clear();
             Common.CAnt_1List.Clear();
             Common.CAnt_2List.Clear();
+            Common.ALPHA_1 = Convert.ToDouble(textBox1.Text);
+            Common.BETA_2 = Convert.ToDouble(textBox2.Text);
             MTsp mtsp = new MTsp();
             mtsp.InitData();
             mtsp.Search();

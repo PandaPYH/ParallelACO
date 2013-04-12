@@ -23,9 +23,20 @@ namespace ant_C
             //    strInfo = String.Format("{0} ", tsp.m_cBestAnt.m_nPath[i] + 1);
             //    Console.Write(strInfo);
             //}
-            MTsp mtsp = new MTsp();
-            mtsp.InitData();
-            mtsp.Search();
+            double length;
+            double avglength = 0.0;
+            for (int i = 0; i < 10; i++)
+            {
+                MTsp mtsp = new MTsp();
+                mtsp.InitData();
+                mtsp.Search();
+                length = mtsp.m_cBestAnt.m_dbPathLength;
+                Console.WriteLine("[{0}]: {1}", i, length);
+                avglength += length;
+            }
+
+            Console.WriteLine("avg: {0}", avglength / 10);
+
 
             Console.Read();
 

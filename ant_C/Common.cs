@@ -12,22 +12,22 @@ namespace ant_C
         public static double ALPHA = 1.0; //启发因子，信息素的重要程度
         public static double BETA = 3.0;   //期望因子，城市间距离的重要程度
 
-        public static double ALPHA_1 = 2.0; //种群1启发因子，信息素的重要程度
-        public static double BETA_1 = 3.0;   //种群1期望因子，城市间距离的重要程度
+        public static double ALPHA_1 = 1.0; //种群1启发因子，信息素的重要程度
+        public static double BETA_1 = 4.0;   //种群1期望因子，城市间距离的重要程度
 
         public static double ALPHA_2 = 1.0; //种群2启发因子，信息素的重要程度
         public static double BETA_2 = 5.0;   //种群2期望因子，城市间距离的重要程度
 
         public static double ROU = 0.7; //信息素残留参数
 
-        public static int N_ANT_COUNT = 38; //蚂蚁数量
+        public static int N_ANT_COUNT = 40; //蚂蚁数量
         public static int N_IT_COUNT = 1000; //迭代次数
-        public static int N_CITY_COUNT = 76; //城市数量
+        public static int N_CITY_COUNT = 51; //城市数量
 
         public static TSPpoint[] tspPoint = new TSPpoint[N_CITY_COUNT];
         public static double DBQ = 100.0; //总的信息素
         public static double DB_MAX = 10e9; //一个标志数，10的9次方
-        public static string filePath = "D:\\eil76.tsp";
+        public static string filePath = "D:\\eil51.tsp";
 
         public static List<double> CAnt_1List = new List<double>();
         public static List<double> CAnt_2List = new List<double>();
