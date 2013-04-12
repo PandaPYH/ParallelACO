@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ant_C
 {
-    class CAnt1
+    [Serializable]
+    public class CAnt1 : ICloneable, IAnt
     {   
         /// <summary>
         /// 蚂蚁走的路径 
@@ -30,7 +33,9 @@ namespace ant_C
         /// <summary>
         /// 蚂蚁走过的路径长度
         /// </summary>
-        public double m_dbPathLength; 
+        public double m_dbPathLength;
+
+        public double Alpha, Beta;
 
         public CAnt1()
         {
@@ -85,7 +90,7 @@ namespace ant_C
 	        {
 		        if (m_nAllowedCity[i] == 1) //城市没去过
 		        {
-                    prob[i] = System.Math.Pow(Common.g_Trial_1[m_nCurCityNo,i], Common.ALPHA) * System.Math.Pow(1.0 / Common.g_Distance[m_nCurCityNo,i], Common.BETA); //该城市和当前城市间的信息素
+                    prob[i] = System.Math.Pow(Common.g_Trial_1[m_nCurCityNo,i], Common.ALPHA_1) * System.Math.Pow(1.0 / Common.g_Distance[m_nCurCityNo,i], Common.BETA_1); //该城市和当前城市间的信息素
 			        dbTotal=dbTotal+prob[i]; //累加信息素，得到总和
 		        }
 		        else //如果城市去过了，则其被选中的概率值为0
@@ -194,5 +199,28 @@ namespace ant_C
         }
 
 
+
+        public object Clone()
+        {
+            MemoryStream ms = new MemoryStream();
+
+            //以二进制格式进行序列化          
+
+            BinaryFormatter bf = new BinaryFormatter();
+
+            bf.Serialize(ms, this);
+
+            //反序列化当前实例到一个object    
+
+            ms.Seek(0, 0);
+
+            object obj = bf.Deserialize(ms);
+
+            //关闭内存流            
+
+            ms.Close();
+
+            return obj;     
+        }
     }
 }

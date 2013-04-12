@@ -58,10 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ant.cs" />
+    <Compile Include="CAnt1.cs" />
     <Compile Include="Cant2.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="AO.cs" />
+    <Compile Include="DeepClone.cs" />
+    <Compile Include="IAnt.cs" />
     <Compile Include="MTsp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tsp.cs" />

@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ant_C
 {
-    class MTsp : IDisposable
+    public class MTsp : IDisposable
     {
         #region 参数定义
 
         CAnt1[] m_cAntAry_1; //蚂蚁种群1数组
         CAnt2[] m_cAntAry_2; //蚂蚁种群2数组
+
+        CAnt1 localBest_1;
+        CAnt2 localBest_2;
         public CAnt1 m_cBestAnt; //定义一个蚂蚁变量，用来保存搜索过程中的最优结果
         //该蚂蚁不参与搜索，只是用来保存最优结果
         /// <summary>
@@ -43,6 +47,8 @@ namespace ant_C
             {
                 m_cAntAry_2[i] = new CAnt2();
             }
+            localBest_1 = new CAnt1();
+            localBest_2 = new CAnt2();
             m_cBestAnt=new CAnt1();
             m_cBestAnt_1 = new CAnt1();
             m_cBestAnt_2 = new CAnt2();
@@ -54,6 +60,8 @@ namespace ant_C
         public void InitData()
         {
             //先把最优蚂蚁的路径长度设置成一个很大的值
+            localBest_1.m_dbPathLength = Common.DB_MAX;
+            localBest_2.m_dbPathLength = Common.DB_MAX;
             m_cBestAnt.m_dbPathLength = Common.DB_MAX;
             m_cBestAnt_1.m_dbPathLength = Common.DB_MAX;
             m_cBestAnt_2.m_dbPathLength = Common.DB_MAX;
@@ -111,12 +119,14 @@ namespace ant_C
                 m = m_cBestAnt_1.m_nPath[j];
                 n = m_cBestAnt_1.m_nPath[j - 1];
                 dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / m_cBestAnt_1.m_dbPathLength;
+                //dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / Math.Pow(m_cBestAnt_1.m_dbPathLength, 2);
                 dbTempAry[m, n] = dbTempAry[n, m];
             }
 
                 //最后城市和开始城市之间的信息素
             n = m_cBestAnt_1.m_nPath[0];
             dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / m_cBestAnt_1.m_dbPathLength;
+            //dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / Math.Pow(m_cBestAnt_1.m_dbPathLength, 2);
             dbTempAry[m, n] = dbTempAry[n, m];
 
             
@@ -136,12 +146,14 @@ namespace ant_C
                 m = m_cBestAnt_2.m_nPath[j];
                 n = m_cBestAnt_2.m_nPath[j - 1];
                 dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / m_cBestAnt_2.m_dbPathLength;
+                //dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / Math.Pow(m_cBestAnt_2.m_dbPathLength, 2);
                 dbTempAry[m, n] = dbTempAry[n, m];
             }
 
             //最后城市和开始城市之间的信息素
             n = m_cBestAnt_2.m_nPath[0];
             dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / m_cBestAnt_2.m_dbPathLength;
+            //dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / Math.Pow(m_cBestAnt_2.m_dbPathLength, 2);
             dbTempAry[m, n] = dbTempAry[n, m];
 
             for (int i = 0; i < Common.N_CITY_COUNT; i++)
@@ -160,7 +172,7 @@ namespace ant_C
         /// </summary>
         public void UpdateTrial_1()
         {
-            //Common.MaxTrial_1 = (1 / (1 - Common.ROU)) * (1 / m_cBestAnt_1.m_dbPathLength);
+            //Common.MaxTrial_1 = 1 / Common.ROU * (1 / m_cBestAnt_1.m_dbPathLength);
             //Common.MinTrial_1 = Common.MaxTrial_1 / 5;
             //临时数组，保存各只蚂蚁在两两城市间新留下的信息素
             double[,] dbTempAry = new double[Common.N_CITY_COUNT, Common.N_CITY_COUNT];
@@ -186,12 +198,14 @@ namespace ant_C
                     m = m_cAntAry_1[i].m_nPath[j];
                     n = m_cAntAry_1[i].m_nPath[j - 1];
                     dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / m_cAntAry_1[i].m_dbPathLength;
+                    //dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / Math.Pow(m_cAntAry_1[i].m_dbPathLength, 2);
                     dbTempAry[m, n] = dbTempAry[n, m];
                 }
 
                 //最后城市和开始城市之间的信息素
                 n = m_cAntAry_1[i].m_nPath[0];
                 dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / m_cAntAry_1[i].m_dbPathLength;
+                //dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / Math.Pow(m_cAntAry_1[i].m_dbPathLength, 2);
                 dbTempAry[m, n] = dbTempAry[n, m];
 
             }
@@ -220,7 +234,7 @@ namespace ant_C
         /// </summary>
         public void UpdateTrial_2()
         {
-            //Common.MaxTrial_2 = (1 / (1 - Common.ROU)) * (1 / m_cBestAnt_2.m_dbPathLength);
+            //Common.MaxTrial_2 = (1 / Common.ROU) * (1 / m_cBestAnt_2.m_dbPathLength);
             //Common.MinTrial_2 = Common.MaxTrial_2 / 5;
             //临时数组，保存各只蚂蚁在两两城市间新留下的信息素
             double[,] dbTempAry = new double[Common.N_CITY_COUNT, Common.N_CITY_COUNT];
@@ -246,12 +260,14 @@ namespace ant_C
                     m = m_cAntAry_2[i].m_nPath[j];
                     n = m_cAntAry_2[i].m_nPath[j - 1];
                     dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / m_cAntAry_2[i].m_dbPathLength;
+                    //dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / Math.Pow(m_cAntAry_2[i].m_dbPathLength, 2);
                     dbTempAry[m, n] = dbTempAry[n, m];
                 }
 
                 //最后城市和开始城市之间的信息素
                 n = m_cAntAry_2[i].m_nPath[0];
                 dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / m_cAntAry_2[i].m_dbPathLength;
+                //dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / Math.Pow(m_cAntAry_2[i].m_dbPathLength, 2);
                 dbTempAry[m, n] = dbTempAry[n, m];
 
             }
@@ -276,7 +292,9 @@ namespace ant_C
         }
 
         #endregion
-        
+
+        #region 搜索
+
         /// <summary>
         /// 蚂蚁种群1进行搜索
         /// </summary>
@@ -286,7 +304,8 @@ namespace ant_C
             {
                 m_cAntAry_1[i].Search();
             }
-
+            //Parallel.ForEach(m_cAntAry_1, ant => ant.Search());
+            
             //保存最佳结果
             for (int j = 0; j < Common.N_ANT_COUNT; j++)
             {
@@ -302,6 +321,7 @@ namespace ant_C
             //    Console.Write("{0} ", m_cBestAnt_1.m_nPath[i] + 1);
             //}
             //Console.WriteLine();
+
             UpdateTrial_1();
         }
 
@@ -314,6 +334,8 @@ namespace ant_C
             {
                 m_cAntAry_2[i].Search();
             }
+
+            //Parallel.ForEach(m_cAntAry_2, ant => ant.Search());
 
             //保存最佳结果
             for (int j = 0; j < Common.N_ANT_COUNT; j++)
@@ -338,12 +360,14 @@ namespace ant_C
         /// </summary>
         public void MantStart()
         {
-            ant_1 = new Thread(Search_1);
-            ant_2 = new Thread(Search_2);
-            ant_1.Start();
-            ant_2.Start();
-            ant_1.Join();
-            ant_2.Join();
+            //ant_1 = new Thread(Search_1);
+            //ant_2 = new Thread(Search_2);
+            //ant_1.Start();
+            //ant_2.Start();
+            //ant_1.Join();
+            //ant_2.Join();
+            Search_1();
+            Search_2();
         }
 
         /// <summary>
@@ -351,62 +375,97 @@ namespace ant_C
         /// </summary>
         public void Search()
         {
-	        //char cBuf[256]; //打印信息用
-            string strInfo="";
-            
+            //char cBuf[256]; //打印信息用
+            string strInfo = "";
+
             bool blFlag = false;
             int flag = 0;
             //Mant = new Thread(MantStart);
-	        //在迭代次数内进行循环
+            //在迭代次数内进行循环
             for (int i = 0; i < Common.N_IT_COUNT; i++)
             {
                 MantStart();
-
-                if (m_cBestAnt.m_dbPathLength > m_cBestAnt_2.m_dbPathLength)
-                {
-                    m_cBestAnt.m_nPath = m_cBestAnt_2.m_nPath;
-                    m_cBestAnt.m_dbPathLength = m_cBestAnt_2.m_dbPathLength;
-                    blFlag = true;
-                }
-                if (m_cBestAnt.m_dbPathLength > m_cBestAnt_1.m_dbPathLength)
-                {
-                    m_cBestAnt.m_nPath = m_cBestAnt_1.m_nPath;
-                    m_cBestAnt.m_dbPathLength = m_cBestAnt_1.m_dbPathLength;
-                    blFlag = true;
-                }
 
                 if (i % 10 == 0)
                 {
                     UpdateBestTrial();
                 }
+
+                localBest_2.m_dbPathLength = Common.DB_MAX;
+                for (int a = 0; a < Common.N_ANT_COUNT; a++)
+                {
+                    if (m_cAntAry_2[a].m_dbPathLength < localBest_2.m_dbPathLength)
+                    {
+                        localBest_2.m_dbPathLength = m_cAntAry_2[a].m_dbPathLength;
+                    }
+                }
+                Common.CAnt_2List.Add(localBest_2.m_dbPathLength);
+
+                localBest_1.m_dbPathLength = Common.DB_MAX;
+                for (int b = 0; b < Common.N_ANT_COUNT; b++)
+                {
+                    if (m_cAntAry_1[b].m_dbPathLength < localBest_1.m_dbPathLength)
+                    {
+                        localBest_1.m_dbPathLength = m_cAntAry_1[b].m_dbPathLength;
+                    }
+                }
+                Common.CAnt_1List.Add(localBest_1.m_dbPathLength);
+
+                //Common.CAnt_1List.Add(m_cBestAnt_1.m_dbPathLength);
+                //Common.CAnt_2List.Add(m_cBestAnt_2.m_dbPathLength);
+
+                if (m_cBestAnt.m_dbPathLength > m_cBestAnt_2.m_dbPathLength)
+                {
+                    //m_cBestAnt.m_nPath = m_cBestAnt_2.m_nPath;
+                    m_cBestAnt.m_nPath = (int[])INTSergesion.DeepClone(m_cBestAnt_2.m_nPath);
+                    m_cBestAnt.m_dbPathLength = m_cBestAnt_2.m_dbPathLength;
+                    blFlag = true;
+                }
+                if (m_cBestAnt.m_dbPathLength > m_cBestAnt_1.m_dbPathLength)
+                {
+                    m_cBestAnt.m_nPath = (int[])INTSergesion.DeepClone(m_cBestAnt_1.m_nPath);
+                    m_cBestAnt.m_dbPathLength = m_cBestAnt_1.m_dbPathLength;
+                    blFlag = true;
+                }
+
                 if (blFlag)
                 {
-                    Console.WriteLine("[{0}]: {1}", i, m_cBestAnt.m_dbPathLength);
+                    Console.WriteLine("\nall:[{0}]: {1}", i, m_cBestAnt.m_dbPathLength);
                     for (int j = 0; j < Common.N_CITY_COUNT; j++)
                     {
-                        Console.Write("{0}, ", m_cBestAnt.m_nPath[j]);
+                        Console.Write("{0}, ", m_cBestAnt.m_nPath[j] + 1);
                     }
                     Console.WriteLine();
                     blFlag = false;
                 }
             }
 
-            Console.WriteLine("best_1 path length = {0} ", m_cBestAnt_1.m_dbPathLength);
+            Console.WriteLine("\nbest path length = {0} ", m_cBestAnt.m_dbPathLength);
             for (int i = 0; i < Common.N_CITY_COUNT; i++)
             {
-                strInfo = String.Format("{0} ", m_cBestAnt_1.m_nPath[i] + 1);
+                strInfo = String.Format("{0} ", m_cBestAnt.m_nPath[i] + 1);
                 Console.Write(strInfo);
             }
 
-            Console.WriteLine();
+            Console.WriteLine("\nbest_1 path length = {0} ", m_cBestAnt_1.m_dbPathLength);
+            //for (int i = 0; i < Common.N_CITY_COUNT; i++)
+            //{
+            //    strInfo = String.Format("{0} ", m_cBestAnt_1.m_nPath[i] + 1);
+            //    Console.Write(strInfo);
+            //}
+
+            //Console.WriteLine();
 
             Console.WriteLine("best_2 path length = {0} ", m_cBestAnt_2.m_dbPathLength);
-            for (int i = 0; i < Common.N_CITY_COUNT; i++)
-            {
-                strInfo = String.Format("{0} ", m_cBestAnt_2.m_nPath[i] + 1);
-                Console.Write(strInfo);
-            }
+            //for (int i = 0; i < Common.N_CITY_COUNT; i++)
+            //{
+            //    strInfo = String.Format("{0} ", m_cBestAnt_2.m_nPath[i] + 1);
+            //    Console.Write(strInfo);
+            //}
         }
+
+        #endregion
+        
 
         #region IDisposable 成员
 
