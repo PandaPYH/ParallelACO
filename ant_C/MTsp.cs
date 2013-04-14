@@ -201,6 +201,10 @@ namespace ant_C
                     m = m_cAntAry_1[i].m_nPath[j];
                     n = m_cAntAry_1[i].m_nPath[j - 1];
                     dbTempAry[n, m] = dbTempAry[n, m] + (Common.DBQ / m_cAntAry_1[i].m_dbPathLength) * ballance;
+                    for (int k = 0; k < j; k++)
+                    {
+                        //TODO:动态信息素
+                    }
                     //dbTempAry[n, m] = dbTempAry[n, m] + Common.DBQ / Math.Pow(m_cAntAry_1[i].m_dbPathLength, 2);
                     dbTempAry[m, n] = dbTempAry[n, m];
                 }
@@ -382,7 +386,6 @@ namespace ant_C
             string strInfo = "";
 
             bool blFlag = false;
-            int flag = 0;
             //Mant = new Thread(MantStart);
             //在迭代次数内进行循环
             for (int i = 0; i < Common.N_IT_COUNT; i++)
@@ -440,38 +443,38 @@ namespace ant_C
 
                 if (blFlag)
                 {
-                    //Console.WriteLine("\nall:[{0}]: {1}", i, m_cBestAnt.m_dbPathLength);
-                    //for (int j = 0; j < Common.N_CITY_COUNT; j++)
-                    //{
-                    //    Console.Write("{0}, ", m_cBestAnt.m_nPath[j] + 1);
-                    //}
-                    //Console.WriteLine();
+                    Console.WriteLine("\nall:[{0}]: {1}", i, m_cBestAnt.m_dbPathLength);
+                    for (int j = 0; j < Common.N_CITY_COUNT; j++)
+                    {
+                        Console.Write("{0}, ", m_cBestAnt.m_nPath[j] + 1);
+                    }
+                    Console.WriteLine();
                     blFlag = false;
                 }
             }
 
-            //Console.WriteLine("\nbest path length = {0} ", m_cBestAnt.m_dbPathLength);
-            //for (int i = 0; i < Common.N_CITY_COUNT; i++)
-            //{
-            //    strInfo = String.Format("{0} ", m_cBestAnt.m_nPath[i] + 1);
-            //    Console.Write(strInfo);
-            //}
+            Console.WriteLine("\nbest path length = {0} ", m_cBestAnt.m_dbPathLength);
+            for (int i = 0; i < Common.N_CITY_COUNT; i++)
+            {
+                strInfo = String.Format("{0} ", m_cBestAnt.m_nPath[i] + 1);
+                Console.Write(strInfo);
+            }
 
-            //Console.WriteLine("\nbest_1 path length = {0} ", m_cBestAnt_1.m_dbPathLength);
-            //for (int i = 0; i < Common.N_CITY_COUNT; i++)
-            //{
-            //    strInfo = String.Format("{0} ", m_cBestAnt_1.m_nPath[i] + 1);
-            //    Console.Write(strInfo);
-            //}
+            Console.WriteLine("\nbest_1 path length = {0} ", m_cBestAnt_1.m_dbPathLength);
+            for (int i = 0; i < Common.N_CITY_COUNT; i++)
+            {
+                strInfo = String.Format("{0} ", m_cBestAnt_1.m_nPath[i] + 1);
+                Console.Write(strInfo);
+            }
 
-            //Console.WriteLine();
+            Console.WriteLine();
 
-            //Console.WriteLine("best_2 path length = {0} ", m_cBestAnt_2.m_dbPathLength);
-            //for (int i = 0; i < Common.N_CITY_COUNT; i++)
-            //{
-            //    strInfo = String.Format("{0} ", m_cBestAnt_2.m_nPath[i] + 1);
-            //    Console.Write(strInfo);
-            //}
+            Console.WriteLine("best_2 path length = {0} ", m_cBestAnt_2.m_dbPathLength);
+            for (int i = 0; i < Common.N_CITY_COUNT; i++)
+            {
+                strInfo = String.Format("{0} ", m_cBestAnt_2.m_nPath[i] + 1);
+                Console.Write(strInfo);
+            }
         }
 
         #endregion

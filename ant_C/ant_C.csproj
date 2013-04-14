@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CAnt1.cs" />
-    <Compile Include="Cant2.cs" />
+    <Compile Include="CAnt2.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="AO.cs" />
     <Compile Include="DeepClone.cs" />
