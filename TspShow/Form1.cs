@@ -38,7 +38,9 @@ namespace TspShow
             Common.CAnt_1List.Clear();
             Common.CAnt_2List.Clear();
             Common.ALPHA_1 = Convert.ToDouble(textBox1.Text);
-            Common.BETA_2 = Convert.ToDouble(textBox2.Text);
+            Common.BETA_1 = Convert.ToDouble(textBox2.Text);
+            Common.ALPHA_2 = Convert.ToDouble(textBox3.Text);
+            Common.BETA_2 = Convert.ToDouble(textBox4.Text);
             MTsp mtsp = new MTsp();
             mtsp.InitData();
             mtsp.Search();
